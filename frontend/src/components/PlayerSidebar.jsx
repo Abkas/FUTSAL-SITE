@@ -15,7 +15,7 @@ const PlayerSidebar = ({ style }) => {
     { label: 'Profile', path: '/player-profile', icon: <User size={22} /> },
     { label: 'Add Friends', path: '/player-addfriend', icon: <UserPlus size={22} /> },
     { label: 'My Team', path: '/player-myteam', icon: <TeamIcon size={22} /> },
-    { label: 'History', path: '/player-history', icon: <History size={22} /> },
+    { /* label: 'History', path: '/player-history', icon: <History size={22} /> */ },
     { label: 'Upcoming Matches', path: '/player-upcomingmatches', icon: <Clock size={22} /> },
   ];
   return (
