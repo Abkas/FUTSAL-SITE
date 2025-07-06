@@ -396,6 +396,7 @@ const MyTeamPage = () => {
                     </div>
 
                     {/* Render open challenges in the main content area instead of a modal */}
+                    {/*
                     <div style={{margin:'32px 0'}}>
                       <h2 style={{fontWeight:700,marginBottom:12,fontSize:'1.3rem',color:'#2563eb'}}>Open Team Challenges</h2>
                       <div style={{display:'flex',flexDirection:'column',gap:12}}>
@@ -544,6 +545,7 @@ const MyTeamPage = () => {
                         </div>
                       </div>
                     )}
+                    // */
                   </>
                 ) : (
                   <div className={styles.createTeamBox} style={{
