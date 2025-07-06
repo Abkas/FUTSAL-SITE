@@ -16,7 +16,7 @@ const OrganizerSidebar = () => {
     { label: 'My Futsals', path: '/organizer-futsals', icon: <MapPin size={22} /> },
     { label: 'Slots', path: '/organizer-slots', icon: <Clock size={22} /> },
     { label: 'Add Friends', path: '/player-addfriend', icon: <UserPlus size={22} /> },
-    { label: 'My Team', path: '/player-myteam', icon: <Users size={22} /> },
+    { /* label: 'My Team', path: '/player-myteam', icon: <Users size={22} /> */},
     { label: 'Upcoming Matches', path: '/player-upcomingmatches', icon: <Clock size={22} /> },
   ];
 
