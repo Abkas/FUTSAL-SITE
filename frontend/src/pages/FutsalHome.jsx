@@ -31,7 +31,7 @@ const FutsalHome = () => {
         {/* Footer */}
         <div className={styles.footer}>
           <div className={styles.quickStartButton}>
-            <Link to='/quickmatch'>
+            <Link to='/map-search'>
               <button>
                 Quick Start
                 <img src="/FUTSALHOME/soccer-ball-icon.png" alt="Soccer Ball" />
