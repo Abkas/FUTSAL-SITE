@@ -1330,6 +1330,11 @@ html {
     font-size: 1rem;
     margin-top: 1rem;
   }
+  .navLinks {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 24px;
+  }
 }
 @media (max-width: 600px) {
   .column {

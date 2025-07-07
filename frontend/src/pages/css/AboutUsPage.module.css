@@ -42,9 +42,8 @@ body {
     border-bottom: 1px solid #eee;
     width: 100%;
     width: 100vw;
-    
-   
-   
+    position: relative;
+    z-index: 100;
 }
 
 .navbar {
@@ -53,9 +52,16 @@ body {
     align-items: center;
     padding: 20px 50px;
     width: 100%;
-    position: relative;
-    
- 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    background: #fff;
+    min-height: 56px;
+    height: 56px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
 }
 
 .logo {
@@ -1324,13 +1330,20 @@ html {
 }
 @media (max-width: 900px) {
   .navbar {
-    padding: 0 0 0 0 !important;
+    padding: 0 !important;
     height: 56px;
     min-height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    box-sizing: border-box;
+    z-index: 1001;
+    background: #fff;
   }
   .burger {
     display: flex;
@@ -1340,6 +1353,10 @@ html {
     transform: translateY(-50%);
     margin-right: 0;
     z-index: 201;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
   }
   .logo {
     display: none !important;
@@ -1353,6 +1370,11 @@ html {
     width: max-content;
     z-index: 100;
     pointer-events: auto;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    max-width: 70vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .navProfileLogout {
     position: absolute;
@@ -1361,6 +1383,9 @@ html {
     transform: translateY(-50%);
     margin-left: 0;
     z-index: 201;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   .navLinks {
     position: fixed;
@@ -1379,8 +1404,11 @@ html {
     opacity: 1;
     pointer-events: none;
     transition: transform 0.3s;
-    z-index: 200;
+    z-index: 1100;
     margin: 0;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 24px;
   }
   .showMenu {
     transform: translateX(0) !important;
@@ -1457,78 +1485,40 @@ html {
     padding: 10px 10px;
   }
 }
-@media (max-width: 768px) {
-  h2, .ourStoryTitle, .team h2, .cta h2 {
-    font-size: 1.2rem !important;
-  }
-  .ourStoryText, .ourStorySimple {
+@media (max-width: 700px) {
+  .matchPoint {
     font-size: 1rem;
-    padding: 1rem 0.5rem;
+    max-width: 60vw;
   }
-  .footerHeading {
-    font-size: 1rem;
-    padding-bottom: 6px;
+  .navProfileLogout {
+    right: 4px;
   }
-  .footerAbout, .footerContact p, .footerLinks a, .copyright {
-    font-size: 12px;
-  }
-  .btn, .btnSignup, .btnLogin, .btnCta, .workCard .btn {
-    font-size: 0.85rem;
-    padding: 0.5rem 1rem;
-  }
-  .modalContent {
-    padding: 10px;
-    width: 98%;
-  }
-  .modalHeader h2 {
-    font-size: 1.1rem;
-  }
-  .modalImage {
-    height: 120px;
+  .burger {
+    left: 2px;
+    width: 36px;
+    height: 36px;
   }
 }
-@media (max-width: 576px) {
-  .mainheader, .navbar {
-    padding: 0 !important;
+@media (max-width: 500px) {
+  .navbar {
+    height: 48px;
+    min-height: 48px;
   }
-  .heroContent {
-    padding: 0.5rem 0;
+  .matchPoint {
+    font-size: 0.95rem;
+    max-width: 50vw;
   }
-  .team {
-    padding: 20px 0;
+  .navLinks {
+    top: 48px;
+    height: calc(100vh - 48px);
+    padding: 16px 0 12px 12px;
   }
-  .teamCard {
-    padding: 10px;
+  .burger {
+    width: 32px;
+    height: 32px;
   }
-  .memberImage {
-    width: 70px;
-    height: 70px;
-  }
-  .worksGrid {
-    gap: 0.5rem;
-  }
-  .workCard, .cardOverlay {
-    padding: 0.5rem;
-    min-height: 100px;
-  }
-  .contactSection {
-    padding: 20px 0;
-  }
-  .contactInfo, .contactForm {
-    padding: 8px;
-  }
-  .footerContainer {
-    padding: 10px 2px 8px;
-  }
-  .footerBottom {
-    padding: 4px 2px;
-  }
-  .footerLogo {
-    max-width: 80px;
-    padding: 4px;
-  }
-  .footerHeading {
-    font-size: 0.9rem;
+  .navProfileLogout {
+    right: 2px;
   }
 }
 
@@ -1556,7 +1546,7 @@ html {
     opacity: 1;
     pointer-events: none;
     transition: transform 0.3s;
-    z-index: 200;
+    z-index: 1100;
     margin: 0;
   }
   .showMenu {

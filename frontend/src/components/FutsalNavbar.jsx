@@ -69,34 +69,36 @@ const FutsalNavbar = () => {
             <img src="/firstpage/logo.png" alt="match-logo" />
           </Link>
         </div>
-        <div className={styles.matchPoint}>MatchPoint</div>
-        <ul className={`${styles.navLinks} ${menuOpen ? styles.showMenu : ''}`}>
-  <li>
-    <Link to="/futsalhome" className={isActive('/futsalhome') ? styles.active : ''} onClick={closeMenu}>
-      Home
-    </Link>
-  </li>
-  <li>
-    <Link to="/bookfutsal" className={isActive('/bookfutsal') ? styles.active : ''} onClick={closeMenu}>
-      Book Futsal
-    </Link>
-  </li>
-  {/* <li>
-    <Link to="/tournaments" className={isActive('/tournaments') ? styles.active : ''} onClick={closeMenu}>
-      Tournaments
-    </Link>
-  </li>
-  <li>
-    <Link to="/quickmatch" className={isActive('/quickmatch') ? styles.active : ''} onClick={closeMenu}>
-      Quick Match
-    </Link>
-  </li> */}
-  <li>
-    <Link to="/map-search" className={isActive('/map-search') ? styles.active : ''} onClick={closeMenu}>
-      Map Search
-    </Link>
-  </li>
-</ul>
+        <div className={styles.matchPoint} onClick={() => navigate('/')} style={{cursor:'pointer', position:'absolute', left:'50%', top:'50%', transform:'translate(-50%,-50%)', width:'max-content'}}>
+          MATCHPOINT
+        </div>
+        <ul className={`${styles.navLinks} ${menuOpen ? styles.showMenu : ''}`} style={{zIndex:200}}>
+          <li>
+            <Link to="/futsalhome" className={isActive('/futsalhome') ? styles.active : ''} onClick={closeMenu}>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/bookfutsal" className={isActive('/bookfutsal') ? styles.active : ''} onClick={closeMenu}>
+              Book Futsal
+            </Link>
+          </li>
+          {/* <li>
+            <Link to="/tournaments" className={isActive('/tournaments') ? styles.active : ''} onClick={closeMenu}>
+              Tournaments
+            </Link>
+          </li>
+          <li>
+            <Link to="/quickmatch" className={isActive('/quickmatch') ? styles.active : ''} onClick={closeMenu}>
+              Quick Match
+            </Link>
+          </li> */}
+          <li>
+            <Link to="/map-search" className={isActive('/map-search') ? styles.active : ''} onClick={closeMenu}>
+              Map Search
+            </Link>
+          </li>
+        </ul>
 
         <div className={styles.navIcons}>
           <div className={styles.notification} onClick={() => setNotifOpen((v) => !v)} ref={notifRef}>
