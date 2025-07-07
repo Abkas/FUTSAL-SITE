@@ -10,6 +10,7 @@ import { FaTwitter, FaLinkedinIn, FaDribbble, FaInstagram, FaFacebookF } from 'r
 const AboutUsPage = () => {
   const { logOut, authUser } = useAuthStore()
   const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const handleLogin = (type) => {
     navigate('/login')
@@ -81,62 +82,88 @@ const AboutUsPage = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Responsive burger menu close on nav link click
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <div>
       <div className={styles.mainheader}>
-        <nav className={styles.navbar}>
-          <div className={styles.logo}>
-            <Link to="/"><img src="/firstpage/logo.png" alt="match-logo" /></Link>
+        <nav className={styles.navbar} style={{position:'relative'}}>
+          {/* Burger menu for mobile (left) */}
+          <div className={styles.burger} style={{position:'absolute',left:0,top:'50%',transform:'translateY(-50%)'}} onClick={() => setMenuOpen(v => !v)}>
+            <span className={menuOpen ? styles.burgerOpen : ''}></span>
+            <span className={menuOpen ? styles.burgerOpen : ''}></span>
+            <span className={menuOpen ? styles.burgerOpen : ''}></span>
           </div>
-          <div className={styles.navLinks}>
-            <Link to="/" className={styles.navLink}>Home</Link>
-            <Link to="/about-us" className={`${styles.navLink} ${styles.active_page}`}>About Us</Link>
-            <Link to="/how-it-works" className={styles.navLink}>How It Works</Link>
+          {/* Logo (hidden on mobile, left on desktop) */}
+          <div className={styles.logo} style={{display:'flex',alignItems:'center'}}>
+            <Link to="/">
+              <img src="/firstpage/logo.png" alt="match-logo" />
+            </Link>
           </div>
+          {/* Centered MATCHPOINT clickable, always visible */}
+          <div className={styles.matchPoint} style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:'max-content'}}>
+            <Link to="/" style={{textDecoration:'none',color:'inherit',fontWeight:700,fontSize:'1.5rem',letterSpacing:'1px'}}>MATCHPOINT</Link>
+          </div>
+          {/* Nav links (responsive, slide out) */}
+          <ul className={`${styles.navLinks} ${menuOpen ? styles.showMenu : ''}`} style={{zIndex:200}}>
+            <li>
+              <Link to="/" className={styles.navLink} onClick={closeMenu}>Home</Link>
+            </li>
+            <li>
+              <Link to="/about-us" className={`${styles.navLink} ${styles.active_page}`} onClick={closeMenu}>About Us</Link>
+            </li>
+            <li>
+              <Link to="/how-it-works" className={styles.navLink} onClick={closeMenu}>How It Works</Link>
+            </li>
+          </ul>
+          {/* Profile/Logout or Auth buttons (right) */}
           <div className={styles.navProfileLogout}>
             {authUser ? (
               <>
-                <Link to="/profile" title="Profile" className={styles.profileLink}>
+                <Link to="/profile" title="Profile" className={styles.profileLink} onClick={closeMenu}>
                   <User size={28} style={{ verticalAlign: 'middle' }} />
                 </Link>
-                <button className={styles.btnLogout} onClick={handleLogout}>
+                <button className={styles.btnLogout} onClick={() => { handleLogout(); closeMenu(); }}>
                   <LogOut size={22} style={{ verticalAlign: 'middle' }} />
-                  <span style={{ fontWeight: 500 }}>Logout</span>
+                  <span className={styles.logoutText} style={{ fontWeight: 500 }}>Logout</span>
                 </button>
               </>
             ) : (
               <>
-                <Link to="/signup" className={styles.btnSignup} style={{
-                  padding: '10px 25px',
-                  borderRadius: 30,
-                  border: '2px solid #111',
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: 'pointer',
-                  backgroundColor: '#fff',
-                  color: '#111',
-                  marginRight: 8,
-                  transition: 'all 0.2s',
-                  boxShadow: 'none',
-                  textDecoration: 'none',
-                }}
+                <Link to="/signup" className={styles.btnSignup} onClick={closeMenu}
+                  style={{
+                    padding: '10px 25px',
+                    borderRadius: 30,
+                    border: '2px solid #111',
+                    fontWeight: 600,
+                    fontSize: 14,
+                    cursor: 'pointer',
+                    backgroundColor: '#fff',
+                    color: '#111',
+                    marginRight: 8,
+                    transition: 'all 0.2s',
+                    boxShadow: 'none',
+                    textDecoration: 'none',
+                  }}
                   onMouseOver={e => { e.target.style.backgroundColor = '#111'; e.target.style.color = '#fff'; }}
                   onMouseOut={e => { e.target.style.backgroundColor = '#fff'; e.target.style.color = '#111'; }}
                 >
                   Sign Up
                 </Link>
-                <Link to="/login" className={styles.btnLogin} style={{
-                  padding: '10px 25px',
-                  borderRadius: 30,
-                  border: 'none',
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: 'pointer',
-                  backgroundColor: '#111',
-                  color: '#fff',
-                  transition: 'all 0.2s',
-                  textDecoration: 'none',
-                }}
+                <Link to="/login" className={styles.btnLogin} onClick={closeMenu}
+                  style={{
+                    padding: '10px 25px',
+                    borderRadius: 30,
+                    border: 'none',
+                    fontWeight: 600,
+                    fontSize: 14,
+                    cursor: 'pointer',
+                    backgroundColor: '#111',
+                    color: '#fff',
+                    transition: 'all 0.2s',
+                    textDecoration: 'none',
+                  }}
                   onMouseOver={e => { e.target.style.backgroundColor = '#333'; }}
                   onMouseOut={e => { e.target.style.backgroundColor = '#111'; }}
                 >

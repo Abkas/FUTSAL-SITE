@@ -4,12 +4,14 @@ import { User, LogOut, Users, Star } from 'lucide-react'
 import { useAuthStore } from '../store/useAuthStore'
 import styles from '../pages/css/HowItWorks.module.css'
 import '../pages/css/FooterOverride.css'
+import aboutUsStyles from '../pages/css/AboutUsPage.module.css'
 
 const HowItWorksPage = () => {  const { logOut, authUser } = useAuthStore()
   const navigate = useNavigate()
   const [showAllFeatures, setShowAllFeatures] = useState(false)
   const [showAllProcesses, setShowAllProcesses] = useState(false)
   const [activeFaqIndex, setActiveFaqIndex] = useState(null)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const handleLogout = () => {
     logOut()
@@ -18,6 +20,7 @@ const HowItWorksPage = () => {  const { logOut, authUser } = useAuthStore()
   const handleLogin = (type) => {
     navigate('/login')
   }
+  const closeMenu = () => setMenuOpen(false)
 
   const processes = [
     {
@@ -114,62 +117,80 @@ const HowItWorksPage = () => {  const { logOut, authUser } = useAuthStore()
 
   return (
     <div>
-      <div className={styles.header}>
-        <nav className={styles.navbar}>
-          <div className={styles.logo}>
-            <Link to="/"><img src="/firstpage/logo.png" alt="match-logo" /></Link>
+      <div className={aboutUsStyles.mainheader}>
+        <nav className={aboutUsStyles.navbar} style={{position:'relative'}}>
+          <div className={aboutUsStyles.burger} style={{position:'absolute',left:0,top:'50%',transform:'translateY(-50%)'}} onClick={() => setMenuOpen(v => !v)}>
+            <span className={menuOpen ? aboutUsStyles.burgerOpen : ''}></span>
+            <span className={menuOpen ? aboutUsStyles.burgerOpen : ''}></span>
+            <span className={menuOpen ? aboutUsStyles.burgerOpen : ''}></span>
           </div>
-          <div className={styles.navLinks}>
-            <Link to="/" className={styles.navLink}>Home</Link>
-            <Link to="/about-us" className={`${styles.navLink} `}>About Us</Link>
-            <Link to="/how-it-works" className={`${styles.navLink} ${styles.active_page}`}>How It Works</Link>
+          <div className={aboutUsStyles.logo} style={{display:'flex',alignItems:'center'}}>
+            <Link to="/">
+              <img src="/firstpage/logo.png" alt="match-logo" />
+            </Link>
           </div>
-          <div className={styles.navProfileLogout}>
+          <div className={aboutUsStyles.matchPoint} style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:'max-content'}}>
+            <Link to="/" style={{textDecoration:'none',color:'inherit',fontWeight:700,fontSize:'1.5rem',letterSpacing:'1px'}}>MATCHPOINT</Link>
+          </div>
+          <ul className={`${aboutUsStyles.navLinks} ${menuOpen ? aboutUsStyles.showMenu : ''}`} style={{zIndex:200}}>
+            <li>
+              <Link to="/" className={aboutUsStyles.navLink} onClick={closeMenu}>Home</Link>
+            </li>
+            <li>
+              <Link to="/about-us" className={aboutUsStyles.navLink} onClick={closeMenu}>About Us</Link>
+            </li>
+            <li>
+              <Link to="/how-it-works" className={`${aboutUsStyles.navLink} ${aboutUsStyles.active_page}`} onClick={closeMenu}>How It Works</Link>
+            </li>
+          </ul>
+          <div className={aboutUsStyles.navProfileLogout}>
             {authUser ? (
               <>
-                <Link to="/profile" title="Profile" className={styles.profileLink}>
+                <Link to="/profile" title="Profile" className={aboutUsStyles.profileLink} onClick={closeMenu}>
                   <User size={28} style={{ verticalAlign: 'middle' }} />
                 </Link>
-                <button className={styles.btnLogout} onClick={handleLogout}>
+                <button className={aboutUsStyles.btnLogout} onClick={() => { handleLogout(); closeMenu(); }}>
                   <LogOut size={22} style={{ verticalAlign: 'middle' }} />
-                  <span style={{ fontWeight: 500 }}>Logout</span>
+                  <span className={aboutUsStyles.logoutText} style={{ fontWeight: 500 }}>Logout</span>
                 </button>
               </>
             ) : (
               <>
-                <Link to="/signup" className={styles.btnSignup} style={{
-                  padding: '10px 25px',
-                  borderRadius: 30,
-                  border: '2px solid #111',
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: 'pointer',
-                  backgroundColor: '#fff',
-                  color: '#111',
-                  marginRight: 8,
-                  transition: 'all 0.2s',
-                  boxShadow: 'none',
-                  textDecoration: 'none',
-                }}
-                onMouseOver={e => { e.target.style.backgroundColor = '#111'; e.target.style.color = '#fff'; }}
-                onMouseOut={e => { e.target.style.backgroundColor = '#fff'; e.target.style.color = '#111'; }}
+                <Link to="/signup" className={aboutUsStyles.btnSignup} onClick={closeMenu}
+                  style={{
+                    padding: '10px 25px',
+                    borderRadius: 30,
+                    border: '2px solid #111',
+                    fontWeight: 600,
+                    fontSize: 14,
+                    cursor: 'pointer',
+                    backgroundColor: '#fff',
+                    color: '#111',
+                    marginRight: 8,
+                    transition: 'all 0.2s',
+                    boxShadow: 'none',
+                    textDecoration: 'none',
+                  }}
+                  onMouseOver={e => { e.target.style.backgroundColor = '#111'; e.target.style.color = '#fff'; }}
+                  onMouseOut={e => { e.target.style.backgroundColor = '#fff'; e.target.style.color = '#111'; }}
                 >
                   Sign Up
                 </Link>
-                <Link to="/login" className={styles.btnLogin} style={{
-                  padding: '10px 25px',
-                  borderRadius: 30,
-                  border: 'none',
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: 'pointer',
-                  backgroundColor: '#111',
-                  color: '#fff',
-                  transition: 'all 0.2s',
-                  textDecoration: 'none',
-                }}
-                onMouseOver={e => { e.target.style.backgroundColor = '#333'; }}
-                onMouseOut={e => { e.target.style.backgroundColor = '#111'; }}
+                <Link to="/login" className={aboutUsStyles.btnLogin} onClick={closeMenu}
+                  style={{
+                    padding: '10px 25px',
+                    borderRadius: 30,
+                    border: 'none',
+                    fontWeight: 600,
+                    fontSize: 14,
+                    cursor: 'pointer',
+                    backgroundColor: '#111',
+                    color: '#fff',
+                    transition: 'all 0.2s',
+                    textDecoration: 'none',
+                  }}
+                  onMouseOver={e => { e.target.style.backgroundColor = '#333'; }}
+                  onMouseOut={e => { e.target.style.backgroundColor = '#111'; }}
                 >
                   Log In
                 </Link>
