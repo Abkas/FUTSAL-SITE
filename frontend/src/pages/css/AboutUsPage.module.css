@@ -1275,3 +1275,292 @@ html {
         font-size: 1rem;
     }
 }
+
+/* --- Responsive Navbar Additions --- */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  z-index: 20;
+  margin-right: 12px;
+}
+.burger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: #232946;
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.burgerOpen:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.burgerOpen:nth-child(2) {
+  opacity: 0;
+}
+.burgerOpen:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+.matchPoint {
+  display: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #232946;
+  letter-spacing: 1px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.showMenu {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+@media (max-width: 900px) {
+  .navbar {
+    padding: 0 0 0 0 !important;
+    height: 56px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .burger {
+    display: flex;
+    position: absolute !important;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 0;
+    z-index: 201;
+  }
+  .logo {
+    display: none !important;
+  }
+  .matchPoint {
+    display: flex !important;
+    position: absolute !important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: max-content;
+    z-index: 100;
+    pointer-events: auto;
+  }
+  .navProfileLogout {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0;
+    z-index: 201;
+  }
+  .navLinks {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 220px;
+    max-width: 80vw;
+    height: calc(100vh - 56px);
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 0 16px 24px;
+    gap: 16px;
+    box-shadow: 2px 0 16px rgba(0,0,0,0.10);
+    transform: translateX(-110%);
+    opacity: 1;
+    pointer-events: none;
+    transition: transform 0.3s;
+    z-index: 200;
+    margin: 0;
+  }
+  .showMenu {
+    transform: translateX(0) !important;
+    pointer-events: auto !important;
+  }
+  .mainheader {
+    padding: 0;
+  }
+  .heroContent {
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+  .heroImage {
+    max-width: 95vw;
+    height: auto;
+  }
+  .team {
+    padding: 40px 0;
+  }
+  .teamGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 0 8px;
+  }
+  .teamCard {
+    padding: 18px;
+  }
+  .memberImage {
+    width: 100px;
+    height: 100px;
+  }
+  .cta .container {
+    flex-direction: column;
+    padding: 0 10px;
+  }
+  .ctaContent {
+    max-width: 100%;
+    text-align: center;
+  }
+  .cta h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .worksGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 8px;
+  }
+  .workCard, .cardOverlay {
+    padding: 1rem;
+    height: auto;
+    min-height: 180px;
+  }
+  .contactSection {
+    padding: 40px 0;
+  }
+  .contactContent {
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .contactInfo, .contactForm {
+    padding: 16px;
+    min-width: 0;
+  }
+  .footerContainer {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 30px 10px 20px;
+  }
+  .footerBottom {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 10px;
+  }
+}
+@media (max-width: 768px) {
+  h2, .ourStoryTitle, .team h2, .cta h2 {
+    font-size: 1.2rem !important;
+  }
+  .ourStoryText, .ourStorySimple {
+    font-size: 1rem;
+    padding: 1rem 0.5rem;
+  }
+  .footerHeading {
+    font-size: 1rem;
+    padding-bottom: 6px;
+  }
+  .footerAbout, .footerContact p, .footerLinks a, .copyright {
+    font-size: 12px;
+  }
+  .btn, .btnSignup, .btnLogin, .btnCta, .workCard .btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+  .modalContent {
+    padding: 10px;
+    width: 98%;
+  }
+  .modalHeader h2 {
+    font-size: 1.1rem;
+  }
+  .modalImage {
+    height: 120px;
+  }
+}
+@media (max-width: 576px) {
+  .mainheader, .navbar {
+    padding: 0 !important;
+  }
+  .heroContent {
+    padding: 0.5rem 0;
+  }
+  .team {
+    padding: 20px 0;
+  }
+  .teamCard {
+    padding: 10px;
+  }
+  .memberImage {
+    width: 70px;
+    height: 70px;
+  }
+  .worksGrid {
+    gap: 0.5rem;
+  }
+  .workCard, .cardOverlay {
+    padding: 0.5rem;
+    min-height: 100px;
+  }
+  .contactSection {
+    padding: 20px 0;
+  }
+  .contactInfo, .contactForm {
+    padding: 8px;
+  }
+  .footerContainer {
+    padding: 10px 2px 8px;
+  }
+  .footerBottom {
+    padding: 4px 2px;
+  }
+  .footerLogo {
+    max-width: 80px;
+    padding: 4px;
+  }
+  .footerHeading {
+    font-size: 0.9rem;
+  }
+}
+
+.logoutText {
+  display: inline;
+}
+@media (max-width: 900px) {
+  .logoutText {
+    display: none;
+  }
+  .navLinks {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 220px;
+    max-width: 80vw;
+    height: calc(100vh - 56px);
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 0 16px 24px;
+    gap: 16px;
+    box-shadow: 2px 0 16px rgba(0,0,0,0.10);
+    transform: translateX(-110%);
+    opacity: 1;
+    pointer-events: none;
+    transition: transform 0.3s;
+    z-index: 200;
+    margin: 0;
+  }
+  .showMenu {
+    transform: translateX(0) !important;
+    pointer-events: auto !important;
+  }
+}

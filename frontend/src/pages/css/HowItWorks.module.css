@@ -1312,3 +1312,31 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px; /* Adjust this value based on your navbar height */
 }
+
+@media (max-width: 900px) {
+  .columnsContainer {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .column {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+  .loginButton {
+    width: 100%;
+    padding: 0.9rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .column {
+    padding: 8px;
+  }
+  .loginButton {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+}
