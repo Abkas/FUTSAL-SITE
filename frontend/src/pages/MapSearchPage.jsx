@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { getSlotTimeStatus, isSlotWithinOpeningHours } from '../utils/slotTimeStatus';
 import { useNavigate } from 'react-router-dom';
 import SeatSelectionModal from '../components/SeatSelectionModal';
+import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -55,6 +56,8 @@ export default function MapSearchPage() {
   const [seatModalSlot, setSeatModalSlot] = useState(null);
   const [seatModalFutsal, setSeatModalFutsal] = useState(null);
   const navigate = useNavigate();
+  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+  const [futsalSheetOpen, setFutsalSheetOpen] = useState(false);
 
   // Load Google Maps script
   useEffect(() => {
@@ -547,7 +550,77 @@ export default function MapSearchPage() {
         className="map-container"
         style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 1 }}
       />
-      <div className="filter-sliders">
+      {/* Filter FAB for mobile */}
+      <button
+        className="filter-fab"
+        style={{
+          position: 'fixed',
+          top: 70,
+          right: 18,
+          zIndex: 30,
+          width: 40,
+          height: 40,
+          borderRadius: '50%',
+          background: '#2563eb',
+          color: '#fff',
+          border: 'none',
+          boxShadow: '0 2px 8px #2563eb33',
+          display: window.innerWidth <= 900 ? 'flex' : 'none',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 20,
+          cursor: 'pointer',
+        }}
+        onClick={() => setFilterPanelOpen(open => !open)}
+        aria-label="Show filters"
+      >
+        <FaSlidersH />
+      </button>
+      {/* Filter Panel (side sheet on mobile) */}
+      <div
+        className={`filter-sliders${filterPanelOpen ? ' open' : ''}`}
+        style={{
+          display: window.innerWidth > 900 || filterPanelOpen ? 'flex' : 'none',
+          ...(window.innerWidth <= 900 ? {
+            position: 'fixed',
+            top: 70,
+            right: 0,
+            bottom: 'auto',
+            left: 'auto',
+            width: '80vw',
+            maxWidth: 340,
+            minWidth: 180,
+            height: 'auto',
+            borderRadius: '18px 0 0 18px',
+            boxShadow: '-4px 0 24px rgba(0,0,0,0.10)',
+            zIndex: 40,
+            padding: '14px 10px 10px 10px',
+            gap: 10,
+            fontSize: 13,
+            transition: 'right 0.3s',
+          } : {})
+        }}
+      >
+        {/* Close button for mobile */}
+        {window.innerWidth <= 900 && (
+          <button
+            onClick={() => setFilterPanelOpen(false)}
+            style={{
+              position: 'absolute',
+              top: 8,
+              right: 12,
+              background: 'none',
+              border: 'none',
+              fontSize: 22,
+              color: '#888',
+              cursor: 'pointer',
+              zIndex: 41,
+            }}
+            aria-label="Close filters"
+          >
+            ×
+          </button>
+        )}
         {/* Date Selector */}
         <div className="slider-group">
           <label style={{marginBottom: 0, fontWeight: 700, fontSize: 16}}>Select Date:</label>
@@ -687,126 +760,159 @@ export default function MapSearchPage() {
           ))}
         </div>
       )}
-      {/* Floating box for futsals in location range */}
-      <div style={{
-        position: 'fixed',
-        left: 24,
-        bottom: 24,
-        zIndex: 1000,
-        background: '#fff',
-        border: '1px solid #ddd',
-        borderRadius: 12,
-        boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
-        padding: 20,
-        minWidth: 260,
-        maxWidth: 350,
-        maxHeight: 420,
-        overflowY: 'auto',
-        transition: 'box-shadow 0.2s',
-        display: filteredFutsals.length > 0 ? 'block' : 'none'
-      }}>
-        <div style={{ fontWeight: 700, fontSize: 20, marginBottom: 16, color: '#1976d2', letterSpacing: 0.5 }}>Futsals Available</div>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>          {filteredFutsals.map(futsal => {
-            const distance = getFutsalDistance(futsal);            const availableSlots = (allSlots[futsal._id] || []).filter(slot => {
-              const timeStatus = getSlotTimeStatus(slot, selectedDate);
-              const withinHours = isSlotWithinOpeningHours(slot, futsal);
-              const matchesPrice = !slot.price || (slot.price <= filters.price);
-              const enoughSeats = hasEnoughSeats(slot);
-              return slot.status === 'available' && timeStatus === 'upcoming' && withinHours && matchesPrice && enoughSeats;
-            });
-            const isExpanded = expandedFutsalIds.includes(futsal._id);
-            return (
-              <li key={futsal._id} style={{ marginBottom: 16, borderBottom: '1px solid #eee', paddingBottom: 10 }}>
-                <div
-                  style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: 12 }}
-                  onClick={() => {
-                    setExpandedFutsalIds(ids =>
-                      ids.includes(futsal._id)
-                        ? ids.filter(id => id !== futsal._id)
-                        : [...ids, futsal._id]
-                    );
-                  }}
-                >
-                  <img
-                    src={futsal.futsalPhoto || '/default-futsal.jpg'}
-                    alt={futsal.name}
-                    style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', border: '1px solid #ccc', background: '#f5f5f5', cursor: 'pointer' }}
-                    onClick={e => {
-                      e.stopPropagation();
-                      navigate(`/futsal/${futsal._id}`);
+      {/* Futsals Available bottom sheet for mobile */}
+      <div
+        className="futsal-available-list"
+        style={{
+          position: window.innerWidth <= 900 ? 'fixed' : 'fixed',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          top: 'auto',
+          width: window.innerWidth <= 900 ? '100vw' : 350,
+          maxWidth: window.innerWidth <= 900 ? '100vw' : 350,
+          minWidth: window.innerWidth <= 900 ? 'unset' : 260,
+          borderRadius: window.innerWidth <= 900 ? '18px 18px 0 0' : 12,
+          zIndex: 21,
+          margin: 0,
+          boxShadow: '0 -4px 24px rgba(0,0,0,0.10)',
+          background: '#fff',
+          padding: window.innerWidth <= 900 ? 0 : 20,
+          maxHeight: futsalSheetOpen ? (window.innerWidth <= 900 ? '60vh' : 420) : (window.innerWidth <= 900 ? 56 : 60),
+          overflowY: futsalSheetOpen ? 'auto' : 'hidden',
+          transition: 'max-height 0.3s',
+          display: filteredFutsals.length > 0 ? 'block' : 'none',
+        }}
+      >
+        {/* Arrow handle and compact bar */}
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            padding: '8px 0 4px 0',
+            userSelect: 'none',
+            borderTopLeftRadius: 18,
+            borderTopRightRadius: 18,
+            background: 'rgba(255,255,255,0.95)',
+            borderBottom: futsalSheetOpen ? '1px solid #eee' : 'none',
+            boxShadow: futsalSheetOpen ? '0 2px 8px #0001' : 'none',
+          }}
+          onClick={() => setFutsalSheetOpen(open => !open)}
+        >
+          {futsalSheetOpen ? <FaChevronDown size={20} color="#1976d2" /> : <FaChevronUp size={20} color="#1976d2" />}
+          <span style={{ fontWeight: 700, fontSize: window.innerWidth <= 900 ? 15 : 18, color: '#1976d2', marginLeft: 8 }}>
+            Futsals Available
+          </span>
+        </div>
+        {/* Only show the list if open */}
+        {futsalSheetOpen && (
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {filteredFutsals.map(futsal => {
+              const distance = getFutsalDistance(futsal);
+              const availableSlots = (allSlots[futsal._id] || []).filter(slot => {
+                const timeStatus = getSlotTimeStatus(slot, selectedDate);
+                const withinHours = isSlotWithinOpeningHours(slot, futsal);
+                const matchesPrice = !slot.price || (slot.price <= filters.price);
+                const enoughSeats = hasEnoughSeats(slot);
+                return slot.status === 'available' && timeStatus === 'upcoming' && withinHours && matchesPrice && enoughSeats;
+              });
+              const isExpanded = expandedFutsalIds.includes(futsal._id);
+              return (
+                <li key={futsal._id} style={{ marginBottom: 16, borderBottom: '1px solid #eee', paddingBottom: 10 }}>
+                  <div
+                    style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: 12 }}
+                    onClick={() => {
+                      setExpandedFutsalIds(ids =>
+                        ids.includes(futsal._id)
+                          ? ids.filter(id => id !== futsal._id)
+                          : [...ids, futsal._id]
+                      );
                     }}
-                  />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, fontSize: 16, color: '#222' }}>{futsal.name}</div>
-                    <div style={{ fontSize: 13, color: '#666', marginTop: 2 }}>{futsal.location || 'Location not specified'}</div>
-                  </div>
-                  <div style={{ textAlign: 'right', minWidth: 70 }}>
-                    <div style={{ fontSize: 13, color: '#1976d2', fontWeight: 500 }}>{distance !== null ? `${distance.toFixed(2)} km` : 'N/A'}</div>
-                    <div style={{ fontSize: 13, color: '#333', fontWeight: 600, marginTop: 2 }}>{availableSlots.length} slot{availableSlots.length !== 1 ? 's' : ''}</div>
-                  </div>
-                </div>
-                {isExpanded && (
-                  <div style={{margin: '12px 0 0 0'}}>
-                    <button
+                  >
+                    <img
+                      src={futsal.futsalPhoto || '/default-futsal.jpg'}
+                      alt={futsal.name}
+                      style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '1px solid #ccc', background: '#f5f5f5', cursor: 'pointer' }}
                       onClick={e => {
                         e.stopPropagation();
                         navigate(`/futsal/${futsal._id}`);
                       }}
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        marginBottom: 8,
-                        padding: '8px 0',
-                        background: '#1976d2',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: 6,
-                        fontWeight: 700,
-                        fontSize: 15,
-                        cursor: 'pointer',
-                        letterSpacing: 0.5
-                      }}
-                    >
-                      Open Futsal
-                    </button>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, background: '#f8fafc', borderRadius: 8, boxShadow: '0 2px 8px #0001', border: '1px solid #e3e3e3' }}>
-                      {availableSlots.length === 0 && (
-                        <li style={{ padding: 12, color: '#888', textAlign: 'center' }}>No joinable slots</li>
-                      )}
-                      {availableSlots.map(slot => (
-                        <li key={slot._id} style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '10px 16px', borderBottom: '1px solid #eee' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <span style={{ fontWeight: 500 }}>{slot.time}</span>
-                            <button
-                              onClick={e => {
-                                e.stopPropagation();
-                                setSeatModalSlot(slot);
-                                setSeatModalFutsal(futsal);
-                                setSeatModalOpen(true);
-                              }}
-                              disabled={joinSlotLoading}
-                              style={{ padding: '5px 14px', background: '#1976d2', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600, fontSize: 14 }}
-                            >
-                              Join
-                            </button>
-                          </div>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13, color: '#444', marginTop: 2 }}>
-                            <span>
-                              Players: {Array.isArray(slot.players) ? slot.players.length : (slot.currentPlayers || 0)} / {slot.maxPlayers}
-                            </span>
-                            <span style={{ color: '#1976d2', fontWeight: 500 }}>
-                              Price: {slot.price ? `Rs. ${slot.price}` : 'N/A'}
-                            </span>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, fontSize: 14, color: '#222' }}>{futsal.name}</div>
+                      <div style={{ fontSize: 11, color: '#666', marginTop: 2 }}>{futsal.location || 'Location not specified'}</div>
+                    </div>
+                    <div style={{ textAlign: 'right', minWidth: 60 }}>
+                      <div style={{ fontSize: 11, color: '#1976d2', fontWeight: 500 }}>{distance !== null ? `${distance.toFixed(2)} km` : 'N/A'}</div>
+                      <div style={{ fontSize: 11, color: '#333', fontWeight: 600, marginTop: 2 }}>{availableSlots.length} slot{availableSlots.length !== 1 ? 's' : ''}</div>
+                    </div>
                   </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                  {isExpanded && (
+                    <div style={{margin: '12px 0 0 0'}}>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          navigate(`/futsal/${futsal._id}`);
+                        }}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          marginBottom: 8,
+                          padding: '8px 0',
+                          background: '#1976d2',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: 6,
+                          fontWeight: 700,
+                          fontSize: 13,
+                          cursor: 'pointer',
+                          letterSpacing: 0.5
+                        }}
+                      >
+                        Open Futsal
+                      </button>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0, background: '#f8fafc', borderRadius: 8, boxShadow: '0 2px 8px #0001', border: '1px solid #e3e3e3' }}>
+                        {availableSlots.length === 0 && (
+                          <li style={{ padding: 12, color: '#888', textAlign: 'center' }}>No joinable slots</li>
+                        )}
+                        {availableSlots.map(slot => (
+                          <li key={slot._id} style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '8px 10px', borderBottom: '1px solid #eee' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                              <span style={{ fontWeight: 500, fontSize: 12 }}>{slot.time}</span>
+                              <button
+                                onClick={e => {
+                                  e.stopPropagation();
+                                  setSeatModalSlot(slot);
+                                  setSeatModalFutsal(futsal);
+                                  setSeatModalOpen(true);
+                                }}
+                                disabled={joinSlotLoading}
+                                style={{ padding: '4px 10px', background: '#1976d2', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600, fontSize: 12 }}
+                              >
+                                Join
+                              </button>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, color: '#444', marginTop: 2 }}>
+                              <span>
+                                Players: {Array.isArray(slot.players) ? slot.players.length : (slot.currentPlayers || 0)} / {slot.maxPlayers}
+                              </span>
+                              <span style={{ color: '#1976d2', fontWeight: 500 }}>
+                                Price: {slot.price ? `Rs. ${slot.price}` : 'N/A'}
+                              </span>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       <div style={{ margin: '32px 0' }}>
         <h2>Futsals in Location Range</h2>
