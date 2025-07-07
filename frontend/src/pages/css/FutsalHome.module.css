@@ -177,22 +177,24 @@ nav {
         position: absolute;
         top: 100%;
         left: 0;
-        width: 100vw;
+        width: 220px;
+        max-width: 80vw;
         background: #f8fafc;
         flex-direction: column;
         align-items: flex-start;
-        padding: 24px 0 16px 32px;
+        padding: 24px 0 16px 24px;
         gap: 16px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-        transform: translateY(-200%);
-        opacity: 0;
+        box-shadow: 2px 0 16px rgba(0,0,0,0.10);
+        transform: translateX(-110%);
+        opacity: 1;
         pointer-events: none;
-        transition: all 0.3s;
+        transition: transform 0.3s;
+        z-index: 200;
+        margin: 0;
     }
     .showMenu {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
+        transform: translateX(0) !important;
+        pointer-events: auto !important;
     }
 }
 
