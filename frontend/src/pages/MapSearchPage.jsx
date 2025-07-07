@@ -293,16 +293,27 @@ export default function MapSearchPage() {
   // Fetch all slots for all futsals for the selected date on page load or date change
   useEffect(() => {
     async function fetchAllSlots() {
+      if (!futsals.length) {
+        console.log('[DEBUG] No futsals found.');
+      }
       const slotsByFutsal = {};
       await Promise.all(futsals.map(async (futsal) => {
         try {
           const res = await axios.get(`/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`);
+          console.log(`[DEBUG] Raw response for futsal '${futsal.name}' (${futsal._id}):`, res.data);
           if (Array.isArray(res.data?.message)) {
+            if (res.data.message.length === 0) {
+              console.log(`[DEBUG] No slots for futsal '${futsal.name}' (${futsal._id}) on ${selectedDate}`);
+            } else {
+              console.log(`[DEBUG] Slot array for '${futsal.name}':`, res.data.message);
+            }
             slotsByFutsal[futsal._id] = res.data.message;
           } else {
+            console.log(`[DEBUG] res.data.message is not an array for '${futsal.name}':`, res.data.message);
             slotsByFutsal[futsal._id] = [];
           }
         } catch (err) {
+          console.log(`[DEBUG] Error fetching slots for '${futsal.name}' (${futsal._id}):`, err);
           slotsByFutsal[futsal._id] = [];
         }
       }));
@@ -311,15 +322,21 @@ export default function MapSearchPage() {
       const allSlotsFlat = Object.entries(slotsByFutsal).map(([futsalId, slots]) => ({ futsalId, slots })).filter(f => f.slots.length > 0);
       console.log('All futsals and their slots for selected date', selectedDate, ':', allSlotsFlat);
       // Console: only futsals with available slots to join (filtered)
-      const availableFutsals = allSlotsFlat.map(f => ({
-        futsalId: f.futsalId,        slots: f.slots.filter(slot => {
+      const availableFutsals = allSlotsFlat.map(f => {
+        const filteredSlots = f.slots.filter(slot => {
           const timeStatus = getSlotTimeStatus(slot, selectedDate);
           const withinHours = isSlotWithinOpeningHours(slot, futsals.find(ft => ft._id === f.futsalId));
           const matchesPrice = !slot.price || (slot.price <= filters.price);
           const enoughSeats = hasEnoughSeats(slot);
+          if (!(slot.status === 'available' && timeStatus === 'upcoming' && withinHours && matchesPrice && enoughSeats)) {
+            console.log(`[DEBUG] Slot filtered out for futsal '${futsals.find(ft => ft._id === f.futsalId)?.name}':`, {
+              slot, timeStatus, withinHours, matchesPrice, enoughSeats
+            });
+          }
           return slot.status === 'available' && timeStatus === 'upcoming' && withinHours && matchesPrice && enoughSeats;
-        })
-      })).filter(f => f.slots.length > 0);
+        });
+        return { futsalId: f.futsalId, slots: filteredSlots };
+      }).filter(f => f.slots.length > 0);
       console.log('Futsals with available slots to join for selected date', selectedDate, ':', availableFutsals);
     }
     if (futsals.length && selectedDate) fetchAllSlots();
