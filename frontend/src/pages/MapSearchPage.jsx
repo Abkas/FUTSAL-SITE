@@ -270,7 +270,7 @@ export default function MapSearchPage() {
       const slotsByFutsal = {};
       await Promise.all(filteredFutsals.map(async (futsal) => {
         try {
-          const url = `${API_BASE_URL}/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`;
+          const url = `${API_BASE_URL}/slots/${futsal._id}/slots/date?date=${selectedDate}`;
           const res = await axios.get(url);
           // Use res.data.message as the slots array
           if (Array.isArray(res.data?.message)) {
@@ -304,7 +304,7 @@ export default function MapSearchPage() {
       const slotsByFutsal = {};
       await Promise.all(futsals.map(async (futsal) => {
         try {
-          const url = `${API_BASE_URL}/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`;
+          let url = `${API_BASE_URL}/slots/${futsal._id}/slots/date?date=${selectedDate}`;
           const res = await axios.get(url);
           console.log(`[DEBUG] [${API_BASE_URL ? 'ABSOLUTE' : 'RELATIVE'}] Raw response for futsal '${futsal.name}' (${futsal._id}):`, res.data);
           if (Array.isArray(res.data?.message)) {
@@ -425,7 +425,7 @@ export default function MapSearchPage() {
     const slotsByFutsal = {};
     await Promise.all(futsals.map(async (futsal) => {
       try {
-        const url = `${API_BASE_URL}/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`;
+        const url = `${API_BASE_URL}/slots/${futsal._id}/slots/date?date=${selectedDate}`;
         const res = await axios.get(url);
         if (Array.isArray(res.data?.message)) {
           slotsByFutsal[futsal._id] = res.data.message;
@@ -444,7 +444,7 @@ export default function MapSearchPage() {
     setJoinSlotLoading(true);
     setJoinSlotError(null);
     try {
-      const url = `${API_BASE_URL}/api/v1/slots/${futsalId}/slots/${slotId}/join`;
+      const url = `${API_BASE_URL}/slots/${futsalId}/slots/${slotId}/join`;
       const res = await axios.post(url, { seats, teamChoice });
       if (res.data.success) {
         toast.success('Successfully joined the slot!');
