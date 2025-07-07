@@ -3,12 +3,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../pages/css/OSidebar.module.css';
 import { useAuthStore } from '../store/useAuthStore';
 import { LogOut, User, UserPlus, LayoutDashboard, Clock, History, ChevronLeft, ChevronRight, Users as TeamIcon } from 'lucide-react';
+import { useSidebarContext } from './SidebarContext';
 
 const PlayerSidebar = ({ style }) => {
   const { logOut, authUser } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
+  const { collapsed, setCollapsed } = useSidebarContext();
   
   const menu = [
     { label: 'Dashboard', path: '/player-dashboard', icon: <LayoutDashboard size={22} /> },
