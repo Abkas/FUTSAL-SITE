@@ -270,9 +270,11 @@ export default function MapSearchPage() {
       const slotsByFutsal = {};
       await Promise.all(filteredFutsals.map(async (futsal) => {
         try {
-          const res = await axios.get(`/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`);
+          const url = `${API_BASE_URL}/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`;
+          const res = await axios.get(url);
           // Use res.data.message as the slots array
-          if (Array.isArray(res.data?.message)) {            slotsByFutsal[futsal._id] = res.data.message.filter(slot => {
+          if (Array.isArray(res.data?.message)) {
+            slotsByFutsal[futsal._id] = res.data.message.filter(slot => {
               // Only show slots that are available, upcoming, within opening hours, match price filter, and have enough seats
               const timeStatus = getSlotTimeStatus(slot, selectedDate);
               const withinHours = isSlotWithinOpeningHours(slot, futsal);
