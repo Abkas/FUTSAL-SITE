@@ -4,6 +4,9 @@ import futsalService from '../services/futsalService';
 import FutsalCard from '../components/FutsalCard';
 import styles from '../pages/css/QuickFind.module.css';
 import axios from 'axios';
+
+// Set API base URL from environment variable (for production)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 import { toast } from 'react-hot-toast';
 import { getSlotTimeStatus, isSlotWithinOpeningHours } from '../utils/slotTimeStatus';
 import { useNavigate } from 'react-router-dom';
@@ -299,8 +302,9 @@ export default function MapSearchPage() {
       const slotsByFutsal = {};
       await Promise.all(futsals.map(async (futsal) => {
         try {
-          const res = await axios.get(`/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`);
-          console.log(`[DEBUG] Raw response for futsal '${futsal.name}' (${futsal._id}):`, res.data);
+          const url = `${API_BASE_URL}/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`;
+          const res = await axios.get(url);
+          console.log(`[DEBUG] [${API_BASE_URL ? 'ABSOLUTE' : 'RELATIVE'}] Raw response for futsal '${futsal.name}' (${futsal._id}):`, res.data);
           if (Array.isArray(res.data?.message)) {
             if (res.data.message.length === 0) {
               console.log(`[DEBUG] No slots for futsal '${futsal.name}' (${futsal._id}) on ${selectedDate}`);
@@ -419,7 +423,8 @@ export default function MapSearchPage() {
     const slotsByFutsal = {};
     await Promise.all(futsals.map(async (futsal) => {
       try {
-        const res = await axios.get(`/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`);
+        const url = `${API_BASE_URL}/api/v1/slots/${futsal._id}/slots/date?date=${selectedDate}`;
+        const res = await axios.get(url);
         if (Array.isArray(res.data?.message)) {
           slotsByFutsal[futsal._id] = res.data.message;
         } else {
@@ -437,7 +442,8 @@ export default function MapSearchPage() {
     setJoinSlotLoading(true);
     setJoinSlotError(null);
     try {
-      const res = await axios.post(`/api/v1/slots/${futsalId}/slots/${slotId}/join`, { seats, teamChoice });
+      const url = `${API_BASE_URL}/api/v1/slots/${futsalId}/slots/${slotId}/join`;
+      const res = await axios.post(url, { seats, teamChoice });
       if (res.data.success) {
         toast.success('Successfully joined the slot!');
         await refreshAllSlots();
