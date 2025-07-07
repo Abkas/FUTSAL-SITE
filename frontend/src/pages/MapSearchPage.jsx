@@ -4,14 +4,15 @@ import futsalService from '../services/futsalService';
 import FutsalCard from '../components/FutsalCard';
 import styles from '../pages/css/QuickFind.module.css';
 import axios from 'axios';
-
-// Set API base URL from environment variable (for production)
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+import { axiosInstance } from '../lib/axios';
 import { toast } from 'react-hot-toast';
 import { getSlotTimeStatus, isSlotWithinOpeningHours } from '../utils/slotTimeStatus';
 import { useNavigate } from 'react-router-dom';
 import SeatSelectionModal from '../components/SeatSelectionModal';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
+
+// Set API base URL from environment variable (for production)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -270,8 +271,8 @@ export default function MapSearchPage() {
       const slotsByFutsal = {};
       await Promise.all(filteredFutsals.map(async (futsal) => {
         try {
-          const url = `${API_BASE_URL}/slots/${futsal._id}/slots/date?date=${selectedDate}`;
-          const res = await axios.get(url);
+          let url = `${API_BASE_URL}/slots/${futsal._id}/slots/date?date=${selectedDate}`;
+          const res = await axiosInstance.get(url);
           // Use res.data.message as the slots array
           if (Array.isArray(res.data?.message)) {
             slotsByFutsal[futsal._id] = res.data.message.filter(slot => {
@@ -305,7 +306,7 @@ export default function MapSearchPage() {
       await Promise.all(futsals.map(async (futsal) => {
         try {
           let url = `${API_BASE_URL}/slots/${futsal._id}/slots/date?date=${selectedDate}`;
-          const res = await axios.get(url);
+          const res = await axiosInstance.get(url);
           console.log(`[DEBUG] [${API_BASE_URL ? 'ABSOLUTE' : 'RELATIVE'}] Raw response for futsal '${futsal.name}' (${futsal._id}):`, res.data);
           if (Array.isArray(res.data?.message)) {
             if (res.data.message.length === 0) {
@@ -426,7 +427,7 @@ export default function MapSearchPage() {
     await Promise.all(futsals.map(async (futsal) => {
       try {
         const url = `${API_BASE_URL}/slots/${futsal._id}/slots/date?date=${selectedDate}`;
-        const res = await axios.get(url);
+        const res = await axiosInstance.get(url);
         if (Array.isArray(res.data?.message)) {
           slotsByFutsal[futsal._id] = res.data.message;
         } else {
@@ -445,7 +446,7 @@ export default function MapSearchPage() {
     setJoinSlotError(null);
     try {
       const url = `${API_BASE_URL}/slots/${futsalId}/slots/${slotId}/join`;
-      const res = await axios.post(url, { seats, teamChoice });
+      const res = await axiosInstance.post(url, { seats, teamChoice });
       if (res.data.success) {
         toast.success('Successfully joined the slot!');
         await refreshAllSlots();
