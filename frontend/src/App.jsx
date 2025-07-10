@@ -43,6 +43,11 @@ import {Loader} from "lucide-react"
 import { Toaster } from "react-hot-toast"
 import MapSearchPage from './pages/MapSearchPage';
 import './pages/MapSearchPage.css';
+<<<<<<< HEAD
+=======
+import { SidebarProvider } from './components/SidebarContext';
+import ChatPage from './pages/ChatPage';
+>>>>>>> 4eb92cd (chat system)
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore()
@@ -91,6 +96,7 @@ const App = () => {
         <Route path = '/organizer-slots' element= {authUser?<OSlotsPage />: <Navigate to='/login'/>} />
         <Route path = '/update-futsal' element= {authUser?<UpdateFutsal />: <Navigate to='/login'/>} />
         
+<<<<<<< HEAD
         {/* Player Profile Routes */}
         <Route path="/player-profile" element={authUser ? <PlayerProfile /> : <Navigate to="/login" />} />
         <Route path="/player-profile/:id" element={authUser ? <PlayerProfile /> : <Navigate to="/login" />} />
@@ -104,6 +110,30 @@ const App = () => {
         <Route path="/map-search" element= {authUser?<MapSearchPage />: <Navigate to='/login'/>} />
       </Routes>
 
+=======
+          <Route path = '/update-profile' element= {authUser?<PlayerUpdateProfile />: <Navigate to='/login'/>} />
+          <Route path = '/organizer-dashboard' element= {authUser?<ODashboard />: <Navigate to='/login'/>} />
+          <Route path = '/organizer-addfriend' element= {authUser?<OAddFriend />: <Navigate to='/login'/>} />
+          <Route path = '/organizer-history' element= {authUser?<OHistory />: <Navigate to='/login'/>} />
+          <Route path = '/organizer-futsals' element= {authUser?<OMyFutsal />: <Navigate to='/login'/>} />
+          <Route path = '/organizer-slots' element= {authUser?<OSlotsPage />: <Navigate to='/login'/>} />
+          <Route path = '/update-futsal' element= {authUser?<UpdateFutsal />: <Navigate to='/login'/>} />
+          
+          {/* Player Profile Routes */}
+          <Route path="/player-profile" element={authUser ? <PlayerProfile /> : <Navigate to="/login" />} />
+          <Route path="/player-profile/:id" element={authUser ? <PlayerProfile /> : <Navigate to="/login" />} />
+          <Route path="/player-update-profile" element={authUser ? <PlayerUpdateProfile /> : <Navigate to="/login" />} />
+          <Route path="/player-myteam" element={authUser ? <MyTeamPage /> : <Navigate to="/login" />} />
+          
+          {/* Organizer Profile Routes */}
+          <Route path="/organizer-profile/:id" element={authUser ? <OrganizerProfile /> : <Navigate to="/login" />} />
+          <Route path="/organizer-update-profile" element={authUser ? <OrganizerUpdateProfile /> : <Navigate to="/login" />} />
+          <Route path="/profile" element={authUser ? <Linkprofile /> : <Navigate to="/login" />} />
+          <Route path="/map-search" element= {authUser?<MapSearchPage />: <Navigate to='/login'/>} />
+          <Route path="/chat" element={authUser ? <ChatPage /> : <Navigate to="/login" />} />
+        </Routes>
+      </SidebarProvider>
+>>>>>>> 4eb92cd (chat system)
       <Toaster />
 
 
