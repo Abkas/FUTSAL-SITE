@@ -1330,13 +1330,38 @@ html {
     font-size: 1rem;
     margin-top: 1rem;
   }
+  .navLinks {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 24px;
+  }
 }
 @media (max-width: 600px) {
-  .column {
-    padding: 8px;
+  .btnSignup, .btnLogin {
+    padding: 6px 14px !important;
+    font-size: 12px !important;
+    border-radius: 20px !important;
+    margin-right: 4px !important;
   }
-  .loginButton {
-    padding: 0.7rem;
-    font-size: 0.95rem;
+}
+
+@media (max-width: 450px) {
+  .btnSignup, .btnLogin {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    border-radius: 16px !important;
+    margin-right: 2px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .btnSignup {
+    display: none !important;
+  }
+  .btnLogin {
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+    border-radius: 22px !important;
+    margin-right: 0 !important;
   }
 }
