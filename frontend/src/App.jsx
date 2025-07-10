@@ -44,6 +44,7 @@ import { Toaster } from "react-hot-toast"
 import MapSearchPage from './pages/MapSearchPage';
 import './pages/MapSearchPage.css';
 import { SidebarProvider } from './components/SidebarContext';
+import ChatPage from './pages/ChatPage';
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore()
@@ -104,6 +105,7 @@ const App = () => {
           <Route path="/organizer-update-profile" element={authUser ? <OrganizerUpdateProfile /> : <Navigate to="/login" />} />
           <Route path="/profile" element={authUser ? <Linkprofile /> : <Navigate to="/login" />} />
           <Route path="/map-search" element= {authUser?<MapSearchPage />: <Navigate to='/login'/>} />
+          <Route path="/chat" element={authUser ? <ChatPage /> : <Navigate to="/login" />} />
         </Routes>
       </SidebarProvider>
       <Toaster />

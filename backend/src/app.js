@@ -28,6 +28,7 @@ import NotificationRouter from './routes/notification.route.js' // Importing not
 import FriendshipRouter from './routes/friendship.routes.js' // Importing friendship routes
 import MyTeamRouter from './routes/myteam.routes.js' // Importing myteam routes
 import ChallengeRouter from './routes/challenge.route.js' // Importing challenge routes
+import MessageRouter from './routes/message.route.js'
 //routes declaration
 
 app.use('/api/v1/users', UserRouter)
@@ -40,5 +41,6 @@ app.use('/api/v1/notifications', NotificationRouter) // Registering notification
 app.use('/api/v1/friendships', FriendshipRouter) // Registering friendship routes
 app.use('/api/v1/myteam', MyTeamRouter) // Registering myteam routes
 app.use('/api/v1/challenge', ChallengeRouter) // Registering challenge routes
+app.use('/api/v1/messages', MessageRouter)
 
 export {app}

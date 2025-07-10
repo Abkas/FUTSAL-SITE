@@ -143,7 +143,30 @@ const FutsalNavbar = () => {
                 )}
               </div>
             )}
-          </div>          <div className={styles.profile} onClick={handleProfileClick}>
+          </div>
+          {/* Chat Icon/Button */}
+          <div
+            className={styles.chatIcon}
+            onClick={() => navigate('/chat')}
+            title="Chat"
+            style={{
+              cursor: 'pointer',
+              marginLeft: '16px',
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              background: 'black',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxSizing: 'border-box',
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <div className={styles.profile} onClick={handleProfileClick}>
             <Link to="/profile">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
