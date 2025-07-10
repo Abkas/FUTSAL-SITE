@@ -629,3 +629,69 @@
     padding: 0.5rem;
   }
 }
+
+@media (max-width: 480px) {
+  .profileCard {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    align-items: center;
+  }
+  .profileImage img {
+    width: 70px;
+    height: 70px;
+  }
+  .profileInfo {
+    align-items: center;
+    text-align: center;
+  }
+  .badgesContainer {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .badge {
+    width: 48px;
+    height: 48px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  .showMoreBtn {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .statsCard {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  .statItem {
+    padding: 0.25rem 0;
+  }
+  .recentMatches {
+    padding: 0.75rem;
+  }
+  .matchesTable th, .matchesTable td {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .profileImage img {
+    width: 48px;
+    height: 48px;
+  }
+  .badge {
+    width: 32px;
+    height: 32px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+  .profileCard, .statsCard, .recentMatches {
+    padding: 0.5rem;
+  }
+  .badgesContainer {
+    gap: 0.25rem;
+  }
+}

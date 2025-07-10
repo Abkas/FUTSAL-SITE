@@ -116,12 +116,22 @@ const PUpcomingMatchesPage = () => {
     return (
         <div className={styles.body} style={{ width: '100vw', margin: 0, padding: 0 }}>
             <FutsalNavbar />
-            <div className={styles.container} style={{ width: '100vw', margin: 0, padding: 0, display: 'flex', alignItems: 'stretch', minHeight: '100vh' }}>
-                <div style={{ height: '100vh', minHeight: '100%', position: 'sticky', top: 0, left: 0, zIndex: 100 }}>
+            <div className={styles.container} style={{ width: '100vw', margin: 0, padding: 0, display: 'flex', alignItems: 'stretch' }}>
+                <div style={{ position: 'sticky', top: 0, left: 0, zIndex: 100 }}>
                     <PlayerSidebar style={{ marginTop: 0, height: '100%', minHeight: '100vh' }} />
                 </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <main className={styles.content} style={{ width: '100%', maxWidth: '1200px', padding: '0 20px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 'calc(100vh - 65px)', marginTop: '88px' }}>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                    <main className={styles.content} style={{
+                        width: '100%',
+                        maxWidth: '1200px',
+                        padding: '0 20px',
+                        margin: '0 auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        marginTop: '88px',
+                        justifyContent: 'flex-start',
+                    }}>
                         <h1 className={styles.pageTitle}>Upcoming Matches</h1>
                         {loading ? (
                             <div className={styles.loading}>Loading your matches...</div>

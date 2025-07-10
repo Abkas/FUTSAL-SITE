@@ -95,7 +95,7 @@ const FutsalNavbar = () => {
           </li> */}
           <li>
             <Link to="/map-search" className={isActive('/map-search') ? styles.active : ''} onClick={closeMenu}>
-              Map Search
+              Quick Match
             </Link>
           </li>
         </ul>
