@@ -400,7 +400,14 @@
   }
 
   .container {
-    flex-direction: column;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+  .content {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    min-height: unset !important;
   }
 
   .sidebar {
@@ -436,5 +443,103 @@
   .viewDetailsBtn, .cancelBtn {
     width: 100%;
     margin-bottom: 0.5rem;
+  }
+}
+
+/* --- Additions and improvements for mobile responsiveness --- */
+
+@media (max-width: 600px) {
+  .content {
+    padding: 0.5rem;
+    max-width: 100vw;
+  }
+  .container {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+  .sidebar {
+    width: 100vw;
+    min-width: 0;
+    max-width: 100vw;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    border-right: none;
+  }
+  .matchesGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0;
+  }
+  .matchCard {
+    padding: 0.75rem;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .venueInfo img {
+    width: 32px;
+    height: 32px;
+  }
+  .venueInfo h3 {
+    font-size: 1rem;
+    max-width: 120px;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .matchDetails {
+    font-size: 0.85rem;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .detailItem {
+    font-size: 0.85rem;
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .matchActions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .viewDetailsBtn, .cancelBtn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+  .noMatches {
+    padding: 2rem 0.5rem;
+    max-width: 98vw;
+  }
+  .modal {
+    width: 98vw !important;
+    min-width: 0 !important;
+    left: 1vw !important;
+    right: 1vw !important;
+    padding: 1rem !important;
+    box-sizing: border-box;
+  }
+  textarea {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .venueInfo h3 {
+    font-size: 0.9rem;
+    max-width: 80px;
+  }
+  .matchCard {
+    padding: 0.5rem;
+  }
+  .noMatches {
+    padding: 1rem 0.25rem;
+  }
+  .modal {
+    padding: 0.5rem !important;
   }
 }
