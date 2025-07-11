@@ -43,7 +43,7 @@ import {Loader} from "lucide-react"
 import { Toaster } from "react-hot-toast"
 import MapSearchPage from './pages/MapSearchPage';
 import './pages/MapSearchPage.css';
-import { SidebarProvider } from './components/SidebarContext';
+// Removed SidebarProvider import
 import ChatPage from './pages/ChatPage';
 
 const App = () => {
@@ -65,8 +65,7 @@ const App = () => {
   return (
     <div>
         <ScrollToTop />
-      <SidebarProvider>
-        <Routes>
+      <Routes>
           <Route path = '/'  element={<HomePage />} />
           <Route path = '/about-us'  element={<AboutUsPage />} />
           <Route path = '/how-it-works'  element={<HowItWorks />} />
@@ -107,7 +106,6 @@ const App = () => {
           <Route path="/map-search" element= {authUser?<MapSearchPage />: <Navigate to='/login'/>} />
           <Route path="/chat" element={authUser ? <ChatPage /> : <Navigate to="/login" />} />
         </Routes>
-      </SidebarProvider>
       <Toaster />
     </div>
   )
