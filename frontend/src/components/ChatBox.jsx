@@ -116,7 +116,6 @@ const ChatBox = ({ friend, onBack, isMobileView }) => {
         />
         <div className={styles.chatHeaderInfo}>
           <p className={styles.chatHeaderName}>{friend.username}</p>
-          <p className={styles.chatHeaderStatus}>Online</p>
         </div>
       </div>
       <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', position: 'relative' }}>

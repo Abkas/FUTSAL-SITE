@@ -54,17 +54,19 @@
   border-radius: 8px;
   margin-bottom: 4px;
   background: #fff;
-  border: none;
-  transition: background 0.2s;
+  border: 2px solid #e5e5e5;
+  transition: background 0.2s, border-color 0.2s;
   color: #111;
 }
 
 .friendItem:hover, .friendItem.active {
   background: #f0f2f5;
+  border-color: #0084FF;
 }
 
 .friendItem.active {
   background: #e7f3ff;
+  border-color: #0084FF;
 }
 
 .friendAvatar {
@@ -90,6 +92,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.2s;
+}
+
+.friendItem:hover .friendName {
+  color: #0084FF;
+  text-decoration: underline;
 }
 
 .friendStatus {

@@ -89,7 +89,6 @@ const ChatPage = () => {
                   />
                   <div className={styles.friendInfo}>
                     <p className={styles.friendName}>{friend.username}</p>
-                    <p className={styles.friendStatus}>Online</p>
                   </div>
                 </div>
               ))}
