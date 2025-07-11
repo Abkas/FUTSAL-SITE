@@ -105,7 +105,7 @@ nav {
     gap: 18px;
 }
 
-.notification, .profile {
+.notification, .profile, .chatIcon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -114,15 +114,16 @@ nav {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin: 0; /* Ensure no extra margin */
 }
 
-.notification svg, .profile svg {
+.notification svg, .profile svg, .chatIcon svg {
     width: 20px;
     height: 20px;
     color: #ffffff;
 }
 
-.notification:hover svg, .profile:hover svg {
+.notification:hover svg, .profile:hover svg, .chatIcon:hover svg {
     color: #4169e1;
 }
 
@@ -464,5 +465,22 @@ nav {
         gap: 20px;
         padding: 0 20px 20px;
     }
+}
+
+@media (max-width: 600px) {
+  .navIcons,
+  .navIcons-responsive {
+    gap: 8px !important;
+  }
+  .notification, .profile, .chatIcon {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+  }
+  .notification svg, .profile svg, .chatIcon svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
 }
 

@@ -186,10 +186,10 @@ const BookFutsal = () => {
               </form>
             </div>
             
-            <div className={styles.actionButtons}>
+            {/* <div className={styles.actionButtons}>
               <button className={styles.btnFindTournament} onClick={() => navigate('/tournaments')} type="button">Find a Tournament</button>
               <button className={styles.btnHostTournament} onClick={() => navigate('/tournaments')} type="button">Host a Tournament</button>
-            </div>
+            </div> */}
           </div>
         </section>
 
